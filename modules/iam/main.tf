@@ -1,4 +1,4 @@
-resource "aws_iam_openid_connect_provider" "default" {
+resource "aws_iam_openid_connect_provider" "github_oidc_provider" {
   url = "https://token.actions.githubusercontent.com"
 
   client_id_list = [
@@ -16,22 +16,22 @@ resource "aws_iam_role" "test_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-    {
-        "Version": "2012-10-17",
-        "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-           "Federated": "arn:aws:iam::012345678910:oidc-provider/token.actions.githubusercontent.com"
-        },
-        "Action": "sts:AssumeRoleWithWebIdentity",
-        "Condition": {
-            "StringEquals": {
-            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-            "token.actions.githubusercontent.com:sub": "repo:GitHubOrg/GitHubRepo:ref:refs/heads/GitHubBranch"
-            }
-        }}]
-    },
+      {
+        Version : "2012-10-17",
+        Statement : [
+          {
+            Effect : "Allow",
+            Principal : {
+              Federated : aws_iam_openid_connect_provider.github_oidc_provider.arn
+            },
+            Action : "sts:AssumeRoleWithWebIdentity",
+            Condition : {
+              StringEquals : {
+                "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com",
+                "token.actions.githubusercontent.com:sub" : "repo:${var.github_organisation}/${var.github_repo}:ref:refs/heads/${var.github_branch}"
+              }
+        } }]
+      },
     ]
   })
 
