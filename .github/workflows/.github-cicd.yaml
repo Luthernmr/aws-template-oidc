@@ -2,7 +2,7 @@ name: AWS example workflow
 on:
   push:
     branches:
-      - main
+      - develop
 env:
   ECR_REGISTRY : "336365645045.dkr.ecr.eu-west-3.amazonaws.com"
   ECR_REPO : "aws-template-oidc-dev-ecr"
