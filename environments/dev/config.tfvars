@@ -1,6 +1,6 @@
 env = "dev"
 project_name        = "aws-template-oidc"
-github_organisation = "nemorluther"
+github_organisation = "Luthernmr"
 github_repo         = "aws-template-oidc"
 github_branch       = "main"
 oidc_provider_url   = "https://token.actions.githubusercontent.com"
