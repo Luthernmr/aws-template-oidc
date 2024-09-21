@@ -30,8 +30,8 @@ jobs:
           
       - name: Tag the Docker image
         run: |
-          docker tag ${{ env.ECR_REGISTRY }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REGISTRY }}:latest
+          docker tag ${{ env.ECR_REGISTRY }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:latest
           
       - name: Push the Docker image to ECR
         run: |
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REGISTRY }}:latest
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO}}:latest
