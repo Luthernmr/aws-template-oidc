@@ -39,3 +39,36 @@ resource "aws_iam_role" "oidc_role" {
     name = "${var.project_name}-${var.env}-oidc-role"
   }
 }
+
+resource "aws_iam_policy" "ecr_policy" {
+  name        = "${var.project_name}-${var.env}-ecr-access-policy"
+  description = "Policy to allow ECR access for CI/CD"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:PutImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload",
+          "ecr:DescribeRepositories",
+          #"ecr:CreateRepository",
+          #"ecr:DeleteRepository"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_ecr_policy" {
+  policy_arn = aws_iam_policy.ecr_policy.arn
+  role       = aws_iam_role.oidc_role.name  # Remplace par le nom de ton rôle existant
+}
