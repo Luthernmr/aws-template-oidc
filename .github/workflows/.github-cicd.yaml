@@ -24,6 +24,9 @@ jobs:
           role-session-name: cicd-role-session-name
           aws-region: ${{ env.AWS_REGION }}
       
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: Build the Docker image
         run: |
           docker build -t ${{ env.ECR_REPO }} .
